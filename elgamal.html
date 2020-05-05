@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+        <title>Интерактивная схема алгоритма Эль Гамаля</title>
+        <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    </head>
+    <body>
+
+    <nav id = "header">
+        <div id = "title">Алгоритм Эль Гамаля</div>
+
+        <ul id = "menu">
+            <li>
+                <a href = "#introduction" class = "nav-link">Введение</a>
+            </li>
+            <li>
+                <a href = "#theory-block" class = "nav-link">Теория</a>
+            </li>
+            <li>
+                <a href = "#interactive" class = "nav-link">Интерактивная схема</a>
+            </li>
+            <li>
+                <a href = "#links" class = "nav-link">Источники</a>
+            </li>
+            <li>
+                <a href = "https://github.com/The220th/DM2020_AltExam_ElGamalEncryption" class = "nav-link">Github проект</a>
+            </li>
+        </ul>
+    </nav>
+
+    <div id="wrapper">
+
+        <div id = "introduction" class="block">
+            <h1 class = "title">Введение</h1>
+            <p>
+                Схема Эль Гамаля, предложенная в 1985 г.,
+                может быть использована как для шифрования, так и для цифровых подписей.
+                Безопасность схемы Эль Гамаля обусловлена сложностью
+                вычисления дискретных логарифмов в конечном поле.
+            </p>
+        </div>
+
+        <div id = "theory-block" class="block">
+            <h1 class = "title">Теория</h1>
+            <h2 class = "subtitle">Генерация ключей</h2>
+            <p>
+                Краткое описание алгоритма генерации ключей:  <br>
+                1) Генерация большого числа P <br>
+                2) Выбор целого числа G, такого, что G - первообразный корень P. <br>
+                3) Выбор случайного целого числа x такого, что 1 < x < P-1 <br>
+                4) Вычисление H = G^X mod P <br>
+                5) Набор чисел {P, G, H} - открытый ключ, X - закрытый ключ <br>
+            </p>
+            <h2 class = "subtitle">Шифрование сообщения</h2>
+            <p>
+                Краткое описание алгоритма шифрования: <br>
+                Пусть есть сообщение M, причем такое, что M < P. <br>
+                1) Выбирается сессионный ключ - случайное число R такое, что 1 < R < P - 1 <br>
+                2) Вычисляются числа s1 = G^R mod P, s2 = (H^R)*M mod P. <br>
+                3) Пара чисел {s1, s2} - шифротекст. <br>
+            </p>
+            <h2 class = "subtitle">Расшифрование сообщения</h2>
+            <p>
+                Зная закрытый ключ X, можно вычислить исходное сообщение из шифротекста по формуле<br>
+                M = s2*s1^(P-1-X) mod P
+            </p>
+        </div>
+
+        <div id = "interactive" class="block">
+            <h1 class = "title">Интерактивная схема</h1>
+            <p>
+                Это небольшое приложение, которое вы можете использовать,
+                чтобы понять, как работает шифрование по схеме Эль Гамаля.<br>
+                Это игрушечная реализация, поэтому, пожалуйста, даже не пытайтесь
+                использовать огромные числа. ))
+            </p>
+            <div class="row">
+                <div class="col">
+                    <div class = "machine" id="aliceMachine">
+                        <div class="machine-title-panel">
+                            <h3 class="machine-title">Участник A</h3>
+                        </div>
+                        <div class = "machine-main">
+                            <ul class="errors"></ul>
+                            <form>
+                              <div class="form-group" id="prime">
+                                <label for="txtPrime">
+                                  Введите простое число P
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtPrime"/>
+                                    <button id="getGenerators" class="btn" type="button">Ввести</button>
+                                </div>
+                                <span class="errorInfo">Данное число не является простым</span>
+                              </div>
+
+                              <div class="form-group" id="generator">
+                                <label for="txtG">
+                                  Выберете примитивный корень G
+                                </label>
+                                <div id="generatorInfo">Нажмите на кнопку выше, чтоб увидеть спиcок примитивных корней</div>
+                                <div id="selectG"></div>
+                                <span class="errorInfo">Ошибка</span>
+                              </div>
+
+                              <div class="form-group" id="privateKey">
+                                <label for="txtPrivateKey">
+                                  Введите приватный ключ X
+                                </label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="txtPrivateKey"/>
+                                    <button id="getRandomPrivateKey" class="btn" type="button">Рандом</button>
+                                </div>
+                                <span class="errorInfo">Число должно быть больше 0 и меньше (P-1)</span>
+                              </div>
+
+                              <div class="form-group">
+                                  <button id="getPublicKey" class = "btn" type="button">
+                                    Сгенерировать и Опубликовать Открытый ключ
+                                  </button>
+                              </div>
+                            </form>
+                        </div>
+
+                        <div class="message">
+                            <div id="messageDisplay">
+                              <div class="inbox-empty" style="display: block">
+                                У вас нет сообщений.
+                              </div>
+                              <div class="inbox-has-message" style="display: none">
+                                <div>Вы получили сообщение от Участника B. <button id="decrypt" class="btn btn-primary btn-sm" type="button">Расшифровать</button></div>
+                                <div class="data" style="font-weight: bold;margin-top:10px;"></div>
+                              </div>
+                            </div>
+                        </div>
+
+                        <div class="extrainfo"></div>
+                    </div>
+            </div>
+            <!-- ТАБЛИЦА ДАННЫХ -->
+
+                <div class="col">
+                    <div id="wire">
+                        <div class="wire-data">
+                            <div id="keyDisplay" class="display">
+                                Публичный ключ<br/>
+                                <span class="data">-</span>
+                            </div>
+
+                            <div id="encryptedMsg" class="display">
+                                Зашифрованное сообщение<br/>
+                                <span class="data">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- ВТОРОЙ АБОНЕНТ -->
+
+            <div class="col">
+                <div class="machine" id="bobMachine">
+                    <div class="machine-title-panel">
+                        <h3 class="machine-title">Участник B</h3>
+                    </div>
+                <div class="machine-main">
+                  <form>
+                    <div class="form-group" id="encryptPrivate">
+                      <label for="txtEncryptPrivate">
+                        Введите закрытый ключ для шифрования R
+                      </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="txtEncryptPrivate"/>
+                        <div class="input-group-btn">
+                          <button id="getRandomEncyptKey" class="btn" type="button">Рандом</button>
+                        </div>
+                      </div>
+                      <span class="errorInfo">Число должно быть больше 0 и меньше (P - 1)</span>
+                    </div>
+
+                    <div class="form-group" id="message">
+                      <label for="txtMessage">
+                        Сообщение M
+                      </label>
+                      <div class="input-group">
+                            <input type="text" class="form-control" id="txtMessage"/>
+                            <button id="encrypt" class="btn" type="button">
+                                Отправить
+                            </button>
+                        </div>
+                      <span class="errorInfo">Число должно быть больше 0 и меньше P.</span>
+                    </div>
+
+                  </form>
+                  <div class="extrainfo"></div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id = "links" class="block">
+        <h1 class = "title">Источники</h1>
+        <p>
+            Источники, которые мы использовали.
+        </p>
+        <ul id = "links-list">
+            <li>
+                <a href = "http://caislab.kaist.ac.kr/lecture/2010/spring/cs548/basic/B02.pdf">
+                    <b>El Gamal T.</b> - A public key cryptosystem and a signature scheme based on discrete logarithms
+                </a>
+            </li>
+            <li>
+                <a href = "http://cyber.sibsutis.ru/%D0%A1%D0%9F%D0%98/%D0%9F%D0%B5%D1%80%D0%B2%D0%B0%D1%8F%20%D1%87%D0%B0%D1%81%D1%82%D1%8C/%D0%9A%D0%9C%D0%97%D0%98.pdf">
+                    <b>Рябко, Фионов</b> - Криптографические методы защиты информации
+                </a>
+            </li>
+            <li>
+                <a href = "http://www.cacr.math.uwaterloo.ca/hac/about/chap11.pdf">
+                    <b>Menezes A. J., Oorschot P. v., Vanstone S. A</b> - Handbook of Applied Cryptography
+                </a>
+            </li>
+        </ul>
+    </div>
+    <footer>
+        
+    </footer>
+    </div>
+    <script src="js/primes.js"></script>
+    <script src="js/elgamal.js"></script>
+    <script src="js/machines.js"></script>
+  </body>
+</html>
