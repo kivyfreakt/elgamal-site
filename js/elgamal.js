@@ -11,10 +11,11 @@ var ElGamal = (function () {
 
         Api;
 
-    extendedEuclid = function (a, b) {
-        /*
-            Расширенный алгоритм Евклида
-        */
+    extendedEuclid = function (a, b)
+    /*
+        Расширенный алгоритм Евклида
+    */
+    {
         var u1 = 1, u2 = 0, u3 = a,
             v1 = 0, v2 = 1, v3 = b,
             q, t1, t2, t3;
@@ -32,6 +33,9 @@ var ElGamal = (function () {
     };
 
     powmod = function (base, exp, modulus)
+    /*
+        Возведение в степень по модулю
+    */
     {
         var accum = 1, i = 0, basepow2 = base;
         if (exp === -1)
@@ -49,9 +53,20 @@ var ElGamal = (function () {
     };
 
 
-    isPrime = function (p) {
-        //уебищная реализация, но для игрушечной машинки хватит
-        return PRIMES.indexOf(p) > -1;
+    isPrime = function (p)
+    /*
+        Проверка числа на простоту
+    */
+    {
+        var i;
+        if (p === 1)
+            return false;
+
+        for (i = 2; i * i <= p; i++)
+           if (p % i === 0)
+               return false;
+
+        return true;
     };
 
     isPrimitiveRoot = function (g, p)
@@ -116,9 +131,8 @@ var ElGamal = (function () {
     Api.prototype.getPublicKey = function () {
 
         var errors = validatePublicKeyFields(this.g, this.x, this.p), h;
-        if (errors.length > 0) {
+        if (errors.length > 0)
             throw errors;
-        }
         h = powmod(this.g, this.x, this.p);
         return {
             p: this.p,
@@ -139,15 +153,12 @@ var ElGamal = (function () {
     Api.getAllRoots = function (p) {
         var r, roots = [];
 
-        if (!isPrime(p)) {
-          throw Error("Enter a valid prime number");
-        }
+        if (!isPrime(p))
+          throw Error("Введите корректное простое число");
 
-        for (r = 2; r < p; r += 1) {
-            if (isPrimitiveRoot(r, p)) {
+        for (r = 2; r < p; r += 1);
+            if (isPrimitiveRoot(r, p))
                 roots.push(r);
-            }
-        }
 
         return roots;
     };
@@ -156,7 +167,7 @@ var ElGamal = (function () {
         var r = 2;
 
         if (!isPrime(p)) {
-          throw Error("Enter a valid prime number");
+          throw Error("Введите корректное простое число");
         }
 
         (function loop() {
