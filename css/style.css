@@ -251,12 +251,12 @@ input
     font-weight: bold;
 }
 
-#links-list
+.list
 {
     margin-left: 20px;
 }
 
-#links-list li
+.list li
 {
     font-family: Georgia, serif;
     line-height: 28px;
