@@ -112,6 +112,14 @@ a
 	counter-reset: alice-counter;
 }
 
+
+.center-example
+{
+    margin: 0 auto;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
 .example {
 	width: 50%;
 	padding: 2em;
@@ -188,7 +196,6 @@ label
 .btn{
     background: #212529;
     color: #fff;
-    text-transform: uppercase;
     height: 2rem;
     border: 1px solid #212529;
     font-weight: 500;

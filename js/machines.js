@@ -65,8 +65,8 @@ var wire = {
 };
 
 wire.render = function () {
-    wire.keyDisplay.innerHTML = 'p: ' + this.publicKey.p + ' g: ' + this.publicKey.g + ' h: ' + this.publicKey.h;
-    wire.encryptedMsgDisplay.innerHTML = 'c1: ' + this.message.b + ', c2: ' + this.message.c;
+    wire.keyDisplay.innerHTML = 'p: ' + this.publicKey.p + ' g: ' + this.publicKey.g + ' y: ' + this.publicKey.h;
+    wire.encryptedMsgDisplay.innerHTML = 'u: ' + this.message.b + ', v: ' + this.message.c;
 };
 
 wire.publish = function (message, data) {
