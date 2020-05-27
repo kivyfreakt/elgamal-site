@@ -198,11 +198,9 @@ label
     color: #fff;
     height: 2rem;
     border: 1px solid #212529;
-    font-weight: 500;
     cursor: pointer;
     padding: 0 1rem;
 }
-
 
 .form-group
 {
