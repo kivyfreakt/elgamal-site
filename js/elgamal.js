@@ -200,6 +200,50 @@ var ElGamal = (function () {
         };
     };
 
+    Api.sign = function (m, k, x, publicKey) {
+        var r_ = powmod(publicKey.g, k, publicKey.p);
+        var s_ = ((m - x*r_)*(powmod(k, -1, publicKey.p-1))) % (publicKey.p-1);
+        return {
+            m: m,
+            r: r_,
+            s: s_
+        };
+    };
+
+    Api.sign2 = function (m, k, x, g, p) {
+        var r_ = powmod(g, k, p);
+        var s_ = ((m - x*r_)*(powmod(k, -1, p-1))) % (p-1);
+        return {
+            m: m,
+            r: r_,
+            s: s_
+        };
+    };
+
+    Api.is_valid2 = function (m,r,s,y,g,p)
+    {
+        if((powmod(y, r, p)*powmod(r, s, p))%p === powmod(g, m, p))
+            return "\nПодпись корректна";
+        else
+            return "\nПодпись некорректна (возможно, параметры не удовлетворяют условиям)";
+    };
+    Api.is_valid3 = function (m,r,s,y,g,p)
+    {
+        return{
+            a: (powmod(y, r, p)*powmod(r, s, p))%p,
+            b: powmod(g, m, p)
+        };
+    };
+
+    Api.is_valid = function (msg,publicKey)
+    {
+        alert((powmod(publicKey.h, msg.r, publicKey.p)*powmod(msg.r, msg.s, publicKey.p))%publicKey.p);
+        alert(powmod(publicKey.g, msg.m, publicKey.p));
+        if((powmod(publicKey.h, msg.r, publicKey.p)*powmod(msg.r, msg.s, publicKey.p))%publicKey.p === powmod(publicKey.g, msg.m, publicKey.p))
+            return "Подпись корректна";
+        else
+            return "Подпись некорректна (возможно, параметры не удовлетворяют условиям)";
+    };
     return Api;
 
 }());

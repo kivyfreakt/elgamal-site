@@ -112,7 +112,6 @@ a
 	counter-reset: alice-counter;
 }
 
-
 .center-example
 {
     margin: 0 auto;
@@ -341,51 +340,4 @@ footer
     line-height: 45px;
     font-weight: 700;
     margin-bottom: 25px;
-}
-
-
-.modulo_example
-{
-    display:table;
-    margin:auto;
-    margin-bottom: 25px;
-}
-
-.modulo_example div
-{
-    text-align:center;
-    display:table-cell;
-    vertical-align:middle;
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #212529;
-}
-
-.modulo_example span
-{
-    font-family: Georgia, serif;
-    line-height: 28px;
-    color: #212529;
-    letter-spacing: 0.8px;
-    font-size: 18px;
-    margin: 0 0.5em;
-}
-
-.input_int
-{
-    border: 1px solid rgba(0,0,0,.4);
-    height: 2rem;
-    padding: 0 .5rem;
-}
-
-.button_calc
-{
-    background: #212529;
-    color: #fff;
-    text-transform: uppercase;
-    height: 2rem;
-    border: 1px solid #212529;
-    font-weight: 500;
-    cursor: pointer;
-    padding: 0 1rem;
 }
