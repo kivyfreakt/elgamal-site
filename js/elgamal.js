@@ -237,8 +237,6 @@ var ElGamal = (function () {
 
     Api.is_valid = function (msg,publicKey)
     {
-        alert((powmod(publicKey.h, msg.r, publicKey.p)*powmod(msg.r, msg.s, publicKey.p))%publicKey.p);
-        alert(powmod(publicKey.g, msg.m, publicKey.p));
         if((powmod(publicKey.h, msg.r, publicKey.p)*powmod(msg.r, msg.s, publicKey.p))%publicKey.p === powmod(publicKey.g, msg.m, publicKey.p))
             return "Подпись корректна";
         else
